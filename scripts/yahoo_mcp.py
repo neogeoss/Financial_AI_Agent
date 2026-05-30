@@ -60,7 +60,7 @@ system_prompt = """
 
 
 async def get_tools():
-    try:
+    
         client = MultiServerMCPClient(
         {
             "yahoo-finance": {
@@ -72,16 +72,14 @@ async def get_tools():
         )
 
         tools = await client.get_tools()
-    except Exception as e:
-        print(f"Error fetching tools: {e}")
         
     # print(f"Loaded {len(tools)} tools")
     # print(f"Tools available: {[tool.name for tool in tools]}")
 
         return tools
 
-
-async def finance_research(query):
+###Stricter rule to take in string data type only. 
+async def finance_research(query: str):
     tools = await get_tools()
 
     agent = create_agent(model=llm, tools=tools, system_prompt=system_prompt)
